@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="Controller\PlayerController.cs" />
     <Compile Include="GameObjects\Apple.cs" />
+    <Compile Include="GameObjects\Body.cs" />
     <Compile Include="GameObjects\Food.cs" />
     <Compile Include="Game\GameManagement.cs" />
     <Compile Include="Program.cs" />

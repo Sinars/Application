@@ -52,15 +52,20 @@ namespace Snake.Controller
                 {
                     if (world.Food.ChangePosition((int)(snake.Head.Position.X - snake.Speed) / 30, (int)(snake.Head.Position.Y / 30)))
                         snake.Grow();
+                    if (snake.Canibalism(snake.Head.Position.X - snake.Speed, snake.Head.Position.Y))
+                        Console.WriteLine("Bit left");
                     snake.MoveLeft();
+                   
                 }
             }
             if (right)
             {
                 if (!map.IsBrick((int)((snake.Head.Position.X + distance) / 30), (int)(snake.Head.Position.Y / 30)))
                 {
-                    if (world.Food.ChangePosition((int)(snake.Head.Position.X - snake.Speed) / 30, (int)(snake.Head.Position.Y / 30)))
+                    if (world.Food.ChangePosition((int)(snake.Head.Position.X + snake.Speed) / 30, (int)(snake.Head.Position.Y / 30)))
                         snake.Grow();
+                    if (snake.Canibalism(snake.Head.Position.X + snake.Speed, snake.Head.Position.Y))
+                        Console.WriteLine("Bit right");
                     snake.MoveRight();
                 }
             }
@@ -71,7 +76,9 @@ namespace Snake.Controller
 
                     if (world.Food.ChangePosition((int)(snake.Head.Position.X) / 30, (int)((snake.Head.Position.Y + snake.Speed) / 30)))
                         snake.Grow();
-                        snake.MoveDown();
+                    if (snake.Canibalism(snake.Head.Position.X, snake.Head.Position.Y + snake.Speed))
+                        Console.WriteLine("Bit down");
+                    snake.MoveDown();
                 }
             }
             if (up)
@@ -80,6 +87,8 @@ namespace Snake.Controller
                 {
                     if (world.Food.ChangePosition((int)(snake.Head.Position.X / 30), (int)((snake.Head.Position.Y - snake.Speed) / 30)))
                         snake.Grow();
+                    if (snake.Canibalism(snake.Head.Position.X, snake.Head.Position.Y - snake.Speed))
+                        Console.WriteLine("Bit up");
                     snake.MoveUp();
                 }
             
@@ -97,6 +106,7 @@ namespace Snake.Controller
                 left = true;
                 down = false;
                 up = false;
+                snake.HeadLeft();
             }
             else
                 if(e.Code.Equals(Keyboard.Key.D) && !left)
@@ -104,6 +114,7 @@ namespace Snake.Controller
                 right = true;
                 down = false;
                 up = false;
+                snake.HeadRight();
             }
             else
                 if(Keyboard.IsKeyPressed(Keyboard.Key.W) && !down)
@@ -111,6 +122,7 @@ namespace Snake.Controller
                 up = true;
                 left = false;
                 right = false;
+                snake.HeadUp();
             }
             else
                 if (Keyboard.IsKeyPressed(Keyboard.Key.S) && !up)
@@ -118,6 +130,7 @@ namespace Snake.Controller
                 down = true;
                 left = false;
                 right = false;
+                snake.HeadDown();
             }
         }
     }
