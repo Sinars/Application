@@ -8,6 +8,7 @@ using Snake.WorldContent;
 using SFML.Graphics;
 using Snake.Controller;
 using Snake.Game;
+using Snake.Gui;
 
 namespace Snake
 {
@@ -15,17 +16,16 @@ namespace Snake
     {
          static void Main(string[] args)
         {
-            World world = new World();
-            RenderWindow window = new RenderWindow(new VideoMode(900, 900), "Test");
-            GameManagement game = new GameManagement(window);
+            RenderWindow window = new RenderWindow(new VideoMode(900, 600), "Test", Styles.Close);
+            window.SetFramerateLimit(3);
+           // window.
+            MainMenu menu = new MainMenu(window);
             
-            game.SetUpGame();
             while (window.IsOpen)
             {
                 window.Clear();
                 window.DispatchEvents();
-                game.Update();
-                game.Draw();
+                menu.ShowMenu();
                 window.Display();
             }
         }

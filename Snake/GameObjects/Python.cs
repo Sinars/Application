@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Snake.GameObject
+namespace Snake.GameObjects
 {
     class Python : Drawable
     {
@@ -21,10 +21,16 @@ namespace Snake.GameObject
         public float Speed { get; set; }
         public Python()
         {
+            Speed = 30f;
             body = new List<Sprite>();
             LoadTextures();
             CreateSnake();
             
+        }
+        public void ResetSnake()
+        {
+            body.Clear();
+            CreateSnake();
         }
         public void HeadUp()
         {

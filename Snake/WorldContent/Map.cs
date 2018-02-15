@@ -12,24 +12,22 @@ namespace Snake.WorldContent
     {
         
         Sprite[,] Area;
-        int posX, posY;
+        const int X = 30, Y = 20;
         Texture brickTexture, grassTexture;
         public Map()
         {
             brickTexture = new Texture("Resources\\brick.png");
             grassTexture = new Texture("Resources\\grass.png");
-            posX = 0;
-            posY = 0;
             Area = new Sprite[30,30];
         }
         public void GenerateLevel()
         {
             int increment = 30;
             Vector2f pos = new Vector2f(0, 0);
-            for (int i = 0; i < 30; i++)
+            for (int i = 0; i < Y; i++)
             {
-                for (int j = 0; j < 30; j++)
-                    if (i == 0 || i == 29 || j == 0 || j == 29)
+                for (int j = 0; j < X; j++)
+                    if (i == 0 || i == Y-1 || j == 0 || j == X-1)
                     {
                         Sprite brick = new Sprite(brickTexture, new IntRect(0, 0, 30, 30));
                         brick.Position = pos;
@@ -52,12 +50,12 @@ namespace Snake.WorldContent
         }
         public bool IsBrick(int i, int j)
         {
-            return Area[i, j].Texture.Equals(brickTexture);
+            return Area[j, i].Texture.Equals(brickTexture);
         }
         public void Draw(RenderTarget target, RenderStates states)
         {
-            for (int i = 0; i < 30; i++)
-                for (int j = 0; j < 30; j++)
+            for (int i = 0; i < Y; i++)
+                for (int j = 0; j < X; j++)
                     target.Draw(Area[i, j], RenderStates.Default);
         }
 

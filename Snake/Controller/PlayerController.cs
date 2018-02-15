@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Snake.GameObject;
+using Snake.GameObjects;
 using SFML.Graphics;
 using SFML.Window;
 using Snake.WorldContent;
+using Snake.Gui;
+using Snake.Game;
 
 namespace Snake.Controller
 {
@@ -17,21 +19,31 @@ namespace Snake.Controller
         private RenderWindow window;
         Map map;
         World world;
-        bool up, down, left, right;
+        int direction = 1;
+        /**
+         * 0 - move left
+         * 1 - move right
+         * 2 - move up
+         * 3 - move down
+         **/
         const int distance = 30;
-
+        public bool isRunning;
+        Score score;
         public PlayerController(RenderWindow window, World world) 
         {
+            score = new Score();
+            isRunning = false;
             this.world = world;
             snake = world.snake;
             map = world.Map;
-            left = false;
-            up = false;
-            down = false;
-            right = true;
             this.window = window;
             DispatchEvents();
-            snake.Speed = 30f;
+            
+        }
+        public void ResetPosition()
+        {
+            snake.Head.Position = new SFML.System.Vector2f(400, 400);
+            snake.MoveRight();
         }
         private void DispatchEvents()
         {
@@ -46,90 +58,135 @@ namespace Snake.Controller
 
         public void Update()
         {
-            if (left)
+            switch (direction)
             {
-                if (!map.IsBrick((int)(snake.Head.Position.X - distance) / 30, (int)(snake.Head.Position.Y / 30)))
-                {
-                    if (world.Food.ChangePosition((int)(snake.Head.Position.X - snake.Speed) / 30, (int)(snake.Head.Position.Y / 30)))
-                        snake.Grow();
-                    if (snake.Canibalism(snake.Head.Position.X - snake.Speed, snake.Head.Position.Y))
-                        Console.WriteLine("Bit left");
-                    snake.MoveLeft();
-                   
-                }
-            }
-            if (right)
-            {
-                if (!map.IsBrick((int)((snake.Head.Position.X + distance) / 30), (int)(snake.Head.Position.Y / 30)))
-                {
-                    if (world.Food.ChangePosition((int)(snake.Head.Position.X + snake.Speed) / 30, (int)(snake.Head.Position.Y / 30)))
-                        snake.Grow();
-                    if (snake.Canibalism(snake.Head.Position.X + snake.Speed, snake.Head.Position.Y))
-                        Console.WriteLine("Bit right");
-                    snake.MoveRight();
-                }
-            }
-            if (down)
-            {
-                if (!map.IsBrick((int)(snake.Head.Position.X) / 30, (int)((snake.Head.Position.Y + distance) / 30)))
-                {
+                case 0:
+                    {
+                        if (map.IsBrick((int)(snake.Head.Position.X - distance) / 30, (int)(snake.Head.Position.Y / 30)))
+                        {
+                            GameStop();
+                        }
+                        else
+                        {
+                            if (world.Food.ChangePosition((int)(snake.Head.Position.X - snake.Speed) / 30, (int)(snake.Head.Position.Y / 30)))
+                            {
+                                snake.Grow();
+                                score.UpdateScore(world.Food.Points);
+                            }
+                            if (snake.Canibalism(snake.Head.Position.X - snake.Speed, snake.Head.Position.Y))
+                            {
+                                GameStop();
+                            }
+                            snake.MoveLeft();
 
-                    if (world.Food.ChangePosition((int)(snake.Head.Position.X) / 30, (int)((snake.Head.Position.Y + snake.Speed) / 30)))
-                        snake.Grow();
-                    if (snake.Canibalism(snake.Head.Position.X, snake.Head.Position.Y + snake.Speed))
-                        Console.WriteLine("Bit down");
-                    snake.MoveDown();
-                }
-            }
-            if (up)
-            {
-                if (!map.IsBrick((int)(snake.Head.Position.X) / 30, (int)((snake.Head.Position.Y - distance) / 30)))
-                {
-                    if (world.Food.ChangePosition((int)(snake.Head.Position.X / 30), (int)((snake.Head.Position.Y - snake.Speed) / 30)))
-                        snake.Grow();
-                    if (snake.Canibalism(snake.Head.Position.X, snake.Head.Position.Y - snake.Speed))
-                        Console.WriteLine("Bit up");
-                    snake.MoveUp();
-                }
-            
+                        }
+                        break;
+                    }
+                case 1:
+                    {
+                        if (map.IsBrick((int)((snake.Head.Position.X + distance) / 30), (int)(snake.Head.Position.Y / 30)))
+                        {
+                            GameStop();
+                        }
+                        else
+                        {
+                            if (world.Food.ChangePosition((int)(snake.Head.Position.X + snake.Speed) / 30, (int)(snake.Head.Position.Y / 30)))
+                            {
+                                snake.Grow();
+                                score.UpdateScore(world.Food.Points);
+                            }
+                            if (snake.Canibalism(snake.Head.Position.X + snake.Speed, snake.Head.Position.Y))
+                            {
+                                GameStop();
+                            }
+                            snake.MoveRight();
+                        }
+                        break;
+                    }
+                
+                case 2:
+                    {
+
+                        if (map.IsBrick((int)(snake.Head.Position.X) / 30, (int)((snake.Head.Position.Y - distance) / 30)))
+                        {
+                            GameStop();
+                        }
+                        else
+                        {
+                            if (world.Food.ChangePosition((int)(snake.Head.Position.X / 30), (int)((snake.Head.Position.Y - snake.Speed) / 30)))
+                            {
+                                snake.Grow();
+                                score.UpdateScore(world.Food.Points);
+                            }
+                            if (snake.Canibalism(snake.Head.Position.X, snake.Head.Position.Y - snake.Speed))
+                            {
+                                GameStop();
+                            }
+                            snake.MoveUp();
+                        }
+                        break;
+
+                    }
+                case 3:
+                    {
+                        if (map.IsBrick((int)(snake.Head.Position.X) / 30, (int)((snake.Head.Position.Y + distance) / 30)))
+                            GameStop();
+                        else
+                        {
+
+                            if (world.Food.ChangePosition((int)(snake.Head.Position.X) / 30, (int)((snake.Head.Position.Y + snake.Speed) / 30)))
+                            {
+                                snake.Grow();
+                                score.UpdateScore(world.Food.Points);
+                            }
+                            if (snake.Canibalism(snake.Head.Position.X, snake.Head.Position.Y + snake.Speed))
+                            {
+                                GameStop();
+
+                            }
+                            snake.MoveDown();
+                        }
+                        break;
+                    }
+                default:
+                    break;
             }
         }
-
+        private void GameStop()
+        {
+            isRunning = false;
+            snake.ResetSnake();
+            score.ResetScore();
+            direction = 1;
+        }
         public void Render(RenderWindow window)
         {
             snake.Draw(window, RenderStates.Default);
+            score.Draw(window, RenderStates.Default);
         }
         private void Window_KeyPressed(object sender, SFML.Window.KeyEventArgs e)
         {
-            if (e.Code.Equals(Keyboard.Key.A) && !right)
+            if (e.Code.Equals(Keyboard.Key.A) && direction != 1 )
             {
-                left = true;
-                down = false;
-                up = false;
+                direction = 0;
                 snake.HeadLeft();
             }
             else
-                if(e.Code.Equals(Keyboard.Key.D) && !left)
+                if(e.Code.Equals(Keyboard.Key.D) && direction != 0)
             {
-                right = true;
-                down = false;
-                up = false;
+                direction = 1;
                 snake.HeadRight();
             }
             else
-                if(Keyboard.IsKeyPressed(Keyboard.Key.W) && !down)
+                if(Keyboard.IsKeyPressed(Keyboard.Key.W) && direction != 3)
             {
-                up = true;
-                left = false;
-                right = false;
+                direction = 2;
                 snake.HeadUp();
             }
             else
-                if (Keyboard.IsKeyPressed(Keyboard.Key.S) && !up)
+                if (Keyboard.IsKeyPressed(Keyboard.Key.S) && direction != 2)
             {
-                down = true;
-                left = false;
-                right = false;
+                direction = 3;
                 snake.HeadDown();
             }
         }

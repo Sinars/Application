@@ -29,7 +29,8 @@ namespace Snake.GameObjects
         {
             if ((int)(Position.X / 30) == i && (int)(Position.Y / 30) == j)
             {
-                Position = new Vector2f(((random.Next() % 28) + 1) * 30, ((random.Next() % 28) + 1) * 30);
+                //int x = ((random.Next() % 28) + 1) * 30, y = ((random.Next() % 28) + 1) * 30;
+                Position = new Vector2f(((random.Next() % 28) + 1) * 30, ((random.Next() % 18) + 1) * 30);
                 return true;
             }
             return false;

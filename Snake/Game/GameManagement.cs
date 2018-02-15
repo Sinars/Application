@@ -1,6 +1,5 @@
 ﻿using SFML.Graphics;
 using Snake.Controller;
-using Snake.GameObject;
 using Snake.GameObjects;
 using Snake.WorldContent;
 using System;
@@ -19,19 +18,33 @@ namespace Snake.Game
         Map map;
         Python snake;
         public RenderWindow window;
+        public bool IsRunning
+        {
+            get
+            {
+                return controller.isRunning;
+            }
+            set
+            {
+                controller.isRunning = value;
+            }
+        }
         public GameManagement(RenderWindow window)
         {
-            window.SetFramerateLimit(10);
-            window.DispatchEvents();
-            map = new Map();
-            world = new World();
-            this.window = window;
-            snake = new Python();
             
+            //window.SetFramerateLimit(5);
+            window.DispatchEvents();          
+            this.window = window;
+            SetUpGame();
+
+
         }
         
-        public void SetUpGame()
+        private void SetUpGame()
         {
+            snake = new Python();
+            map = new Map();
+            world = new World();
             world.AddSnake(snake);
             world.LoadMap(map);
             world.Food = new Apple();

@@ -1,6 +1,5 @@
 ﻿using SFML.Graphics;
 using SFML.Window;
-using Snake.GameObject;
 using Snake.GameObjects;
 using System;
 using System.Collections.Generic;
