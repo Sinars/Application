@@ -47,8 +47,14 @@ namespace Snake.Game
             world = new World();
             world.AddSnake(snake);
             world.LoadMap(map);
-            world.Food = new Apple();
             controller = new PlayerController(window, world);
+        }
+
+
+        public void StartGame()
+        {
+            world.Food = new Apple();
+            controller.DispatchEvents();
         }
         public void Update()
         {

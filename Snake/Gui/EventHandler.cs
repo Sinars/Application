@@ -11,16 +11,18 @@ namespace Snake.Gui
     {
         SettingsMenu settingsMenu;
         GameManagement game;
+
         private void Window_MouseButtonPressed(object sender, SFML.Window.MouseButtonEventArgs e)
         {
             
-            if (e.X >= 350 && e.X <= 550 && e.Y >= 400 && e.Y <= 450)
-                    window.Close();
+            if (e.X >= 20 && e.X <= 220 && e.Y >= 150 && e.Y <= 200)
+                 window.Close();
             else
-            if (e.X >= 350 && e.X <= 550 && e.Y >= 300 && e.Y <= 350)
+            if (e.X >= 20 && e.X <= 220 && e.Y >= 100 && e.Y <= 150)
             {
                     
                 window.MouseButtonPressed -= Window_MouseButtonPressed;
+                window.SetFramerateLimit(settingsMenu.FrameLimit);
                 game.IsRunning = true;
                 RunGame();
             }
@@ -28,6 +30,7 @@ namespace Snake.Gui
             {
                 
                 window.MouseButtonPressed -= Window_MouseButtonPressed;
+                
                 settingsMenu.ActivateEvents();
                 ShowSettingsMenu();
             }
@@ -46,6 +49,8 @@ namespace Snake.Gui
         }
         private void RunGame()
         {
+
+            game.StartGame();
             while (game.IsRunning)
             {
                 window.Clear();
@@ -55,6 +60,7 @@ namespace Snake.Gui
                 
                 window.Display();
             }
+            window.SetFramerateLimit(60);
             window.MouseButtonPressed += Window_MouseButtonPressed;
         }
     }

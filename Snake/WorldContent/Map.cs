@@ -1,5 +1,6 @@
 ﻿using SFML.Graphics;
 using SFML.System;
+using Snake.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +15,10 @@ namespace Snake.WorldContent
         Sprite[,] Area;
         const int X = 30, Y = 20;
         Texture brickTexture, grassTexture;
+        public Position Available { get; set; }
         public Map()
         {
+            Available = new Position();
             brickTexture = new Texture("Resources\\brick.png");
             grassTexture = new Texture("Resources\\grass.png");
             Area = new Sprite[30,30];
@@ -32,7 +35,8 @@ namespace Snake.WorldContent
                         Sprite brick = new Sprite(brickTexture, new IntRect(0, 0, 30, 30));
                         brick.Position = pos;
                         pos = new Vector2f(pos.X + increment, pos.Y);
-                        Console.WriteLine(pos + "\n");
+                        
+                        //Console.WriteLine(pos + "\n");
                         Area[i, j] = brick;
                     }
                     else
@@ -40,13 +44,16 @@ namespace Snake.WorldContent
                         Sprite grass = new Sprite(grassTexture ,new IntRect(0, 0, 30, 30));
                         grass.Position = pos;
                         pos = new Vector2f(pos.X + increment, pos.Y);
-                        Console.WriteLine(pos + "\n");
+                        Available.Add((int)pos.X, (int)pos.Y);
                         Area[i, j] = grass;
 
                     }
                 pos = new Vector2f(0, pos.Y + increment);
+                //Console.WriteLine(pos);
                 
             }
+            Available.content.ForEach(x=>Console.WriteLine(x));
+            
         }
         public bool IsBrick(int i, int j)
         {

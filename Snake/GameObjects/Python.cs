@@ -1,5 +1,6 @@
 ﻿using SFML.Graphics;
 using SFML.System;
+using Snake.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace Snake.GameObjects
         Texture head_up, head_down, head_left;
         public Sprite Head { get { return body.First(); } }
         Sprite head;
-
+        public Position Positions { get; set; }
         private const int multiplier = 1;
         public float Speed { get; set; }
         public Python()
@@ -25,12 +26,19 @@ namespace Snake.GameObjects
             body = new List<Sprite>();
             LoadTextures();
             CreateSnake();
-            
+            CreateUsedPosition();
+        }
+        private void CreateUsedPosition()
+        {
+            Positions = new Position();
+            body.ForEach(x => Positions.Add((int)x.Position.X, (int)x.Position.Y));
         }
         public void ResetSnake()
         {
             body.Clear();
+            Positions.Clear();
             CreateSnake();
+            CreateUsedPosition();
         }
         public void HeadUp()
         {
@@ -63,6 +71,7 @@ namespace Snake.GameObjects
                 (body[i]).Position = (body[i - 1]).Position;
         }
 
+        
         private void CreateSnake()
         {
             
@@ -79,7 +88,6 @@ namespace Snake.GameObjects
             body.Add(head);
             body.Add(center);
             body.Add(tail);
-
 
         }
 

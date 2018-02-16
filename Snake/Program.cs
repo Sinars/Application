@@ -17,7 +17,7 @@ namespace Snake
          static void Main(string[] args)
         {
             RenderWindow window = new RenderWindow(new VideoMode(900, 600), "Test", Styles.Close);
-            window.SetFramerateLimit(3);
+            window.SetFramerateLimit(60);
            // window.
             MainMenu menu = new MainMenu(window);
             

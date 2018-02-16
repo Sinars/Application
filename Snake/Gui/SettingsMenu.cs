@@ -17,6 +17,7 @@ namespace Snake.Gui
         Text text;
         Text speed;
         uint fps;
+        public uint FrameLimit { get { return fps; } }
         public bool Finished { get; set; }
         public SettingsMenu(RenderWindow window)
         {
@@ -46,7 +47,6 @@ namespace Snake.Gui
                 {
                     speed.DisplayedString = (int.Parse(speed.DisplayedString) + 1).ToString();
                     fps += 3;
-                    window.SetFramerateLimit(fps);
                 }
             }
             if (e.X >= 550 && e.X <= 580 && e.Y >= 250 && e.Y <= 280)
@@ -55,7 +55,6 @@ namespace Snake.Gui
                 {
                     speed.DisplayedString = (int.Parse(speed.DisplayedString) - 1).ToString();
                     fps -= 3;
-                    window.SetFramerateLimit(fps);
                 }
             }
         }
@@ -85,8 +84,8 @@ namespace Snake.Gui
         public void Draw()
         {
             window.Draw(background);
-            window.Draw(shadow);
-            window.Draw(menuItem);
+            //window.Draw(shadow);
+            //window.Draw(menuItem);
             window.Draw(text);
             window.Draw(back);
             window.Draw(up);

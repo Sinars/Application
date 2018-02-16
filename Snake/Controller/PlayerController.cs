@@ -32,23 +32,48 @@ namespace Snake.Controller
         public PlayerController(RenderWindow window, World world) 
         {
             score = new Score();
+            //score.UpdateScore(27);
             isRunning = false;
             this.world = world;
             snake = world.snake;
             map = world.Map;
             this.window = window;
-            DispatchEvents();
-            
+        }
+
+        private void DeactivateEvents()
+        {
+            window.KeyPressed -= Window_KeyPressed;
+        }
+
+        private void UpdatePositions(int x, int y)
+        {
+            snake.Positions.RemoveFirst();
+            snake.Positions.Add(x, y);
+            //snake.Positions.XList.ForEach(z => Console.WriteLine(z+ " "));
+            //Console.WriteLine("\n");
+            //snake.Positions.YList.ForEach(z => Console.WriteLine(z+ " "));
+        }
+
+        private void AddPosition(int x, int y)
+        {
+            snake.Positions.Add(x, y);
+           
         }
         public void ResetPosition()
         {
             snake.Head.Position = new SFML.System.Vector2f(400, 400);
             snake.MoveRight();
         }
-        private void DispatchEvents()
+        public void DispatchEvents()
         {
             window.KeyPressed += Window_KeyPressed;
+            window.KeyReleased += Window_KeyReleased;
             window.Closed += Window_Closed;
+        }
+
+        private void Window_KeyReleased(object sender, KeyEventArgs e)
+        {
+           // throw new NotImplementedException();
         }
 
         private void Window_Closed(object sender, EventArgs e)
@@ -68,16 +93,19 @@ namespace Snake.Controller
                         }
                         else
                         {
-                            if (world.Food.ChangePosition((int)(snake.Head.Position.X - snake.Speed) / 30, (int)(snake.Head.Position.Y / 30)))
+                            if (world.Food.Eat((int)(snake.Head.Position.X - snake.Speed) / 30, (int)(snake.Head.Position.Y / 30)))
                             {
+                                world.Food.ChangePosition(map.Available, snake.Positions);
                                 snake.Grow();
                                 score.UpdateScore(world.Food.Points);
+                                AddPosition((int)snake.Head.Position.X, (int)snake.Head.Position.Y);
                             }
                             if (snake.Canibalism(snake.Head.Position.X - snake.Speed, snake.Head.Position.Y))
                             {
                                 GameStop();
                             }
                             snake.MoveLeft();
+                            UpdatePositions((int)snake.Head.Position.X, (int)snake.Head.Position.Y);
 
                         }
                         break;
@@ -90,16 +118,20 @@ namespace Snake.Controller
                         }
                         else
                         {
-                            if (world.Food.ChangePosition((int)(snake.Head.Position.X + snake.Speed) / 30, (int)(snake.Head.Position.Y / 30)))
+                            if (world.Food.Eat((int)(snake.Head.Position.X + snake.Speed) / 30, (int)(snake.Head.Position.Y / 30)))
                             {
+                                world.Food.ChangePosition(map.Available, snake.Positions);
                                 snake.Grow();
                                 score.UpdateScore(world.Food.Points);
+                                AddPosition((int)snake.Head.Position.X, (int)snake.Head.Position.Y);
+
                             }
                             if (snake.Canibalism(snake.Head.Position.X + snake.Speed, snake.Head.Position.Y))
                             {
                                 GameStop();
                             }
                             snake.MoveRight();
+                            UpdatePositions((int)snake.Head.Position.X, (int)snake.Head.Position.Y);
                         }
                         break;
                     }
@@ -113,16 +145,19 @@ namespace Snake.Controller
                         }
                         else
                         {
-                            if (world.Food.ChangePosition((int)(snake.Head.Position.X / 30), (int)((snake.Head.Position.Y - snake.Speed) / 30)))
+                            if (world.Food.Eat((int)(snake.Head.Position.X / 30), (int)((snake.Head.Position.Y - snake.Speed) / 30)))
                             {
+                                world.Food.ChangePosition(map.Available, snake.Positions);
                                 snake.Grow();
                                 score.UpdateScore(world.Food.Points);
+                                AddPosition((int)snake.Head.Position.X, (int)snake.Head.Position.Y);
                             }
                             if (snake.Canibalism(snake.Head.Position.X, snake.Head.Position.Y - snake.Speed))
                             {
                                 GameStop();
                             }
                             snake.MoveUp();
+                            UpdatePositions((int)snake.Head.Position.X, (int)snake.Head.Position.Y);
                         }
                         break;
 
@@ -134,10 +169,12 @@ namespace Snake.Controller
                         else
                         {
 
-                            if (world.Food.ChangePosition((int)(snake.Head.Position.X) / 30, (int)((snake.Head.Position.Y + snake.Speed) / 30)))
+                            if (world.Food.Eat((int)(snake.Head.Position.X) / 30, (int)((snake.Head.Position.Y + snake.Speed) / 30)))
                             {
+                                world.Food.ChangePosition(map.Available, snake.Positions);
                                 snake.Grow();
                                 score.UpdateScore(world.Food.Points);
+                                AddPosition((int)snake.Head.Position.X, (int)snake.Head.Position.Y);
                             }
                             if (snake.Canibalism(snake.Head.Position.X, snake.Head.Position.Y + snake.Speed))
                             {
@@ -145,6 +182,7 @@ namespace Snake.Controller
 
                             }
                             snake.MoveDown();
+                            UpdatePositions((int)snake.Head.Position.X, (int)snake.Head.Position.Y);
                         }
                         break;
                     }
@@ -154,16 +192,19 @@ namespace Snake.Controller
         }
         private void GameStop()
         {
+            DeactivateEvents();
             isRunning = false;
             snake.ResetSnake();
             score.ResetScore();
             direction = 1;
+            
         }
         public void Render(RenderWindow window)
         {
             snake.Draw(window, RenderStates.Default);
             score.Draw(window, RenderStates.Default);
         }
+
         private void Window_KeyPressed(object sender, SFML.Window.KeyEventArgs e)
         {
             if (e.Code.Equals(Keyboard.Key.A) && direction != 1 )
@@ -178,13 +219,13 @@ namespace Snake.Controller
                 snake.HeadRight();
             }
             else
-                if(Keyboard.IsKeyPressed(Keyboard.Key.W) && direction != 3)
+                if(e.Code.Equals(Keyboard.Key.W) && direction != 3)
             {
                 direction = 2;
                 snake.HeadUp();
             }
             else
-                if (Keyboard.IsKeyPressed(Keyboard.Key.S) && direction != 2)
+                if (e.Code.Equals(Keyboard.Key.S) && direction != 2)
             {
                 direction = 3;
                 snake.HeadDown();

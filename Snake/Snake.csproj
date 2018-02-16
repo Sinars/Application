@@ -31,6 +31,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="sfmlnet-audio-2, Version=0.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
@@ -59,7 +62,6 @@
   <ItemGroup>
     <Compile Include="Controller\PlayerController.cs" />
     <Compile Include="GameObjects\Apple.cs" />
-    <Compile Include="GameObjects\Body.cs" />
     <Compile Include="GameObjects\Food.cs" />
     <Compile Include="GameObjects\Score.cs" />
     <Compile Include="Game\GameManagement.cs" />
@@ -68,6 +70,7 @@
     <Compile Include="Gui\SettingsMenu.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\Position.cs" />
     <Compile Include="WorldContent\Level.cs" />
     <Compile Include="WorldContent\Map.cs" />
     <Compile Include="GameObjects\Python.cs" />

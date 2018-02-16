@@ -1,4 +1,5 @@
 ﻿using SFML.Graphics;
+using SFML.Window;
 using Snake.Game;
 using System;
 using System.Collections.Generic;
@@ -28,12 +29,12 @@ namespace Snake.Gui
             shadow = new Texture("Resources\\shadow.png");
             //fillColor = new Color(4, 48, 30, 255);
             fillColor = new Color(255, 255, 255, 255);
-            font = new Font("Resources\\Fonts\\Typolino.ttf");
+            font = new Font("Resources\\Fonts\\JMH THE SPIDER bold.ttf");
             window.MouseButtonPressed += Window_MouseButtonPressed;
             CreateMenu();
         }
 
-        
+      
 
         private void CreateMenu()
         {
@@ -47,19 +48,19 @@ namespace Snake.Gui
             behindTop = new Sprite(shadow, new IntRect(0, 0, 200, 50));
             behindBottom = new Sprite(shadow, new IntRect(0, 0, 200, 50));
             
-            Texture texture = new Texture("Resources\\menuitem.png");
-            topSprite = new Sprite(texture, new IntRect(100, 100, 200, 50));
-            topSprite.Position = new SFML.System.Vector2f(350, 300);
-            bottomSprite = new Sprite(texture, new IntRect(100, 100, 200, 50));
-            bottomSprite.Position = new SFML.System.Vector2f(350, 400);
+            Texture texture = new Texture("Resources\\glow_test.png");
+            topSprite = new Sprite(texture, new IntRect(0, 0, 200, 50));
+            topSprite.Position = new SFML.System.Vector2f(20, 100);
+            bottomSprite = new Sprite(texture, new IntRect(0, 0, 200, 50));
+            bottomSprite.Position = new SFML.System.Vector2f(20, 150);
             behindTop.Position = new SFML.System.Vector2f(355, 305);
             behindBottom.Position = new SFML.System.Vector2f(355, 405);
             topText = new Text("Play", font);
             topText.Color = fillColor;
             bottomText = new Text("Exit", font);
             bottomText.Color = fillColor;
-            bottomText.Position = new SFML.System.Vector2f(425, 400);
-            topText.Position = new SFML.System.Vector2f(410, 300);
+            bottomText.Position = new SFML.System.Vector2f(90, 150);
+            topText.Position = new SFML.System.Vector2f(90, 100);
             Texture settingsTexture = new Texture("Resources\\settings.png");
             settings = new Sprite(settingsTexture);
             settings.Position = new SFML.System.Vector2f(20, 550);
@@ -70,14 +71,17 @@ namespace Snake.Gui
         public void ShowMenu()
         {
            
+          
                 window.Draw(menu);
-                window.Draw(behindTop);
+            if((topSprite.GetGlobalBounds().Contains(SFML.Window.Mouse.GetPosition(window).X, Mouse.GetPosition(window).Y)))
+            //    window.Draw(behindTop);
                 window.Draw(topSprite);
-                window.Draw(behindBottom);
-                window.Draw(bottomSprite);
+            //  window.Draw(behindBottom);
+            if (bottomSprite.GetGlobalBounds().Contains(SFML.Window.Mouse.GetPosition(window).X, Mouse.GetPosition(window).Y))
+            window.Draw(bottomSprite);
                 window.Draw(topText);
                 window.Draw(bottomText);
-            window.Draw(settings);
+                window.Draw(settings);
         }
         
     }
