@@ -1,4 +1,5 @@
-﻿using Snake.Game;
+﻿using SFML.Window;
+using Snake.Game;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +16,10 @@ namespace Snake.Gui
         private void Window_MouseButtonPressed(object sender, SFML.Window.MouseButtonEventArgs e)
         {
             
-            if (e.X >= 20 && e.X <= 220 && e.Y >= 150 && e.Y <= 200)
+            if (bottomSprite.GetGlobalBounds().Contains(Mouse.GetPosition(window).X, Mouse.GetPosition(window).Y))
                  window.Close();
             else
-            if (e.X >= 20 && e.X <= 220 && e.Y >= 100 && e.Y <= 150)
+            if (topSprite.GetGlobalBounds().Contains(Mouse.GetPosition(window).X, Mouse.GetPosition(window).Y))
             {
                     
                 window.MouseButtonPressed -= Window_MouseButtonPressed;
@@ -26,7 +27,7 @@ namespace Snake.Gui
                 game.IsRunning = true;
                 RunGame();
             }
-            if (e.X >= 20 && e.X <= 50 && e.Y >= 550 && e.Y <= 580)
+            if (settings.GetGlobalBounds().Contains(Mouse.GetPosition(window).X, Mouse.GetPosition(window).Y))
             {
                 
                 window.MouseButtonPressed -= Window_MouseButtonPressed;
@@ -34,6 +35,13 @@ namespace Snake.Gui
                 settingsMenu.ActivateEvents();
                 ShowSettingsMenu();
             }
+            if (lBoard.GetGlobalBounds().Contains(Mouse.GetPosition(window).X, Mouse.GetPosition(window).Y))
+            {
+                window.MouseButtonPressed -= Window_MouseButtonPressed;
+                ShowLeaderBoardMenu(); 
+                
+            }
+
         }
         private void ShowSettingsMenu()
         {
@@ -61,6 +69,15 @@ namespace Snake.Gui
                 window.Display();
             }
             window.SetFramerateLimit(60);
+            window.MouseButtonPressed += Window_MouseButtonPressed;
+        }
+        private void ShowLeaderBoardMenu()
+        {
+            LeaderboardMenu menu = new LeaderboardMenu(window);
+            while(!menu.IsFinished)
+            {
+                menu.Draw();
+            }
             window.MouseButtonPressed += Window_MouseButtonPressed;
         }
     }

@@ -65,6 +65,7 @@
     <Compile Include="GameObjects\Food.cs" />
     <Compile Include="GameObjects\Score.cs" />
     <Compile Include="Game\GameManagement.cs" />
+    <Compile Include="Gui\LeaderboardMenu.cs" />
     <Compile Include="Gui\MainMenu.cs" />
     <Compile Include="Gui\EventHandler.cs" />
     <Compile Include="Gui\SettingsMenu.cs" />

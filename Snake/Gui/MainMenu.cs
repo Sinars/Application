@@ -12,7 +12,7 @@ namespace Snake.Gui
     partial class MainMenu
     {
         Texture  texture, backgroundTexture;
-        Sprite topSprite,behindTop, behindBottom, bottomSprite, menu, settings;
+        Sprite topSprite, lBoard, bottomSprite, menu, settings;
         Font font;
         Color fillColor;
         Texture shadow;
@@ -45,26 +45,32 @@ namespace Snake.Gui
         }
         private void CreateMenuItems()
         {
-            behindTop = new Sprite(shadow, new IntRect(0, 0, 200, 50));
-            behindBottom = new Sprite(shadow, new IntRect(0, 0, 200, 50));
             
+            //play
             Texture texture = new Texture("Resources\\glow_test.png");
             topSprite = new Sprite(texture, new IntRect(0, 0, 200, 50));
             topSprite.Position = new SFML.System.Vector2f(20, 100);
-            bottomSprite = new Sprite(texture, new IntRect(0, 0, 200, 50));
-            bottomSprite.Position = new SFML.System.Vector2f(20, 150);
-            behindTop.Position = new SFML.System.Vector2f(355, 305);
-            behindBottom.Position = new SFML.System.Vector2f(355, 405);
             topText = new Text("Play", font);
             topText.Color = fillColor;
+            topText.Position = new SFML.System.Vector2f(90, 100);
+
+            //exit
+            bottomSprite = new Sprite(texture, new IntRect(0, 0, 200, 50));
+            bottomSprite.Position = new SFML.System.Vector2f(20, 150);
             bottomText = new Text("Exit", font);
             bottomText.Color = fillColor;
             bottomText.Position = new SFML.System.Vector2f(90, 150);
-            topText.Position = new SFML.System.Vector2f(90, 100);
+
+            //setings
             Texture settingsTexture = new Texture("Resources\\settings.png");
             settings = new Sprite(settingsTexture);
             settings.Position = new SFML.System.Vector2f(20, 550);
             settings.Color = new Color(187, 193, 189, 255);
+            //leaderboard
+
+            Texture lBoardTexture = new Texture("Resources\\leadboard.png");
+            lBoard = new Sprite(lBoardTexture);
+            lBoard.Position = new SFML.System.Vector2f(60, 550);
 
         }
         
@@ -82,6 +88,7 @@ namespace Snake.Gui
                 window.Draw(topText);
                 window.Draw(bottomText);
                 window.Draw(settings);
+            window.Draw(lBoard);
         }
         
     }

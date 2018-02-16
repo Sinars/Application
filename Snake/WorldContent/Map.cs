@@ -15,7 +15,7 @@ namespace Snake.WorldContent
         Sprite[,] Area;
         const int X = 30, Y = 20;
         Texture brickTexture, grassTexture;
-        public Position Available { get; set; }
+        public Position Available { get; }
         public Map()
         {
             Available = new Position();
