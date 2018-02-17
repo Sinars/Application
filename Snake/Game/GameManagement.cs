@@ -14,29 +14,34 @@ namespace Snake.Game
     {
 
         World world;
-        PlayerController controller;
+        public PlayerController Controller { get; set; }
         Map map;
         Python snake;
+        public Leaderboard Leaderboard { get; private set; }
         public RenderWindow window;
         public bool IsRunning
         {
             get
             {
-                return controller.isRunning;
+                return Controller.isRunning;
             }
             set
             {
-                controller.isRunning = value;
+                Controller.isRunning = value;
             }
         }
+
+        
+
         public GameManagement(RenderWindow window)
         {
             
             //window.SetFramerateLimit(5);
             window.DispatchEvents();          
             this.window = window;
+            Leaderboard = new Leaderboard();
             SetUpGame();
-
+            
 
         }
         
@@ -47,23 +52,24 @@ namespace Snake.Game
             world = new World();
             world.AddSnake(snake);
             world.LoadMap(map);
-            controller = new PlayerController(window, world);
+            world.Leaderboard = Leaderboard;
+            Controller = new PlayerController(window, world);
         }
 
 
         public void StartGame()
         {
             world.Food = new Apple();
-            controller.DispatchEvents();
+            Controller.DispatchEvents();
         }
         public void Update()
         {
-            controller.Update();
+            Controller.Update();
         }
         public void Draw()
         {
             world.Draw(window);
-            controller.Render(window);
+            Controller.Render(window);
         }
     }
 }

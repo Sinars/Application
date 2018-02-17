@@ -11,20 +11,27 @@ namespace Snake.GameObjects
     {
         Font font;
         Text points;
+        public int Points { get; private set; }
         public Score()
         {
             font = new Font("Resources\\Fonts\\InriaSerif-Bold.ttf");
             points = new Text("0", font);
+            Points = 0;
+        }
+        public Score(int points)
+        {
+            font = new Font("Resources\\Fonts\\InriaSerif-Bold.ttf");
+            this.points = new Text("0", font);
+
+            Points = points;
         }
         
         public void UpdateScore(int i)
         {
             points.DisplayedString = (int.Parse(points.DisplayedString) + i).ToString();
+            Points += i;
         }
-        public void ResetScore()
-        {
-            points.DisplayedString = "0";
-        }
+
         public void UploadScore()
         {
             //System.IO.File.AppendAllText()

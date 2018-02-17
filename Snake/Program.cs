@@ -20,7 +20,7 @@ namespace Snake
             window.SetFramerateLimit(60);
            // window.
             MainMenu menu = new MainMenu(window);
-            
+            window.Closed += Window_Closed;
             while (window.IsOpen)
             {
                 window.Clear();

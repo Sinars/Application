@@ -68,12 +68,27 @@ namespace Snake.Gui
                 
                 window.Display();
             }
-            window.SetFramerateLimit(60);
+            ShowEndGame();
             window.MouseButtonPressed += Window_MouseButtonPressed;
         }
+        private void ShowEndGame()
+        {
+
+            window.SetFramerateLimit(60);
+            EndGameMenu menu = new EndGameMenu(window, game);
+            while (!menu.IsFinished)
+            {
+                window.Clear();
+                window.DispatchEvents();
+                menu.Draw();
+                window.Display();
+            }
+            
+        }
+
         private void ShowLeaderBoardMenu()
         {
-            LeaderboardMenu menu = new LeaderboardMenu(window);
+            LeaderboardMenu menu = new LeaderboardMenu(window, game);
             while(!menu.IsFinished)
             {
                 menu.Draw();

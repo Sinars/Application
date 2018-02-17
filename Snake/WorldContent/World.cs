@@ -14,6 +14,8 @@ namespace Snake.WorldContent
         public Map Map { get; set; }
         public Python Snake { get { return snake; } }
         public Python snake;
+        public Leaderboard Leaderboard { get; set; }
+
         public Food Food { get; set; }
         public World()
         {
@@ -40,6 +42,7 @@ namespace Snake.WorldContent
             snake.Draw(target, RenderStates.Default);
             Food.Draw(target, RenderStates.Default);
         }
+
         
     }
 }

@@ -63,8 +63,10 @@
     <Compile Include="Controller\PlayerController.cs" />
     <Compile Include="GameObjects\Apple.cs" />
     <Compile Include="GameObjects\Food.cs" />
+    <Compile Include="GameObjects\Leaderboard.cs" />
     <Compile Include="GameObjects\Score.cs" />
     <Compile Include="Game\GameManagement.cs" />
+    <Compile Include="Gui\EndGameMenu.cs" />
     <Compile Include="Gui\LeaderboardMenu.cs" />
     <Compile Include="Gui\MainMenu.cs" />
     <Compile Include="Gui\EventHandler.cs" />

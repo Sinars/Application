@@ -29,6 +29,8 @@ namespace Snake.Controller
         const int distance = 30;
         public bool isRunning;
         Score score;
+        public int FinalScore { get { return score.Points; } }
+
         public PlayerController(RenderWindow window, World world) 
         {
             score = new Score();
@@ -190,13 +192,13 @@ namespace Snake.Controller
                     break;
             }
         }
-        private void GameStop()
+        public void GameStop()
         {
             DeactivateEvents();
             isRunning = false;
             snake.ResetSnake();
-            score.ResetScore();
             direction = 1;
+            
             
         }
         public void Render(RenderWindow window)
