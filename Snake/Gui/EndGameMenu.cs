@@ -38,7 +38,7 @@ namespace Snake.Gui
             okText.Position = new SFML.System.Vector2f(430, 355);
             okButton = new Sprite(new Texture("Resources\\ok.png"));
             okButton.Position = new SFML.System.Vector2f(400, 350);
-            finalScore = new Text("Final Score:     " + game.Controller.FinalScore.ToString(), font);
+            finalScore = new Text("Final Score:     " + game.Controller.Score.Points.ToString(), font);
             finalScore.Position = new SFML.System.Vector2f(250, 200);
             input = new Text("", font);
             input.Color = new Color(Color.Black);
@@ -102,7 +102,8 @@ namespace Snake.Gui
             {
                 window.TextEntered -= Window_TextEntered;
                 window.MouseButtonPressed -= Window_MouseButtonPressed;
-                game.Leaderboard.Add(inputText, new GameObjects.Score(game.Controller.FinalScore));
+                game.Controller.Score.Name = inputText;
+                game.Leaderboard.Add(inputText, game.Controller.Score);
                 IsFinished = true;
             }
         }

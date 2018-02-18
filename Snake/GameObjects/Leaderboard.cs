@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ namespace Snake.GameObjects
         public Leaderboard()
         {
             Data = new Dictionary<string, Score>();
-            
+            LoadData();
         }
 
         public IEnumerable<dynamic> GetHighScores()
@@ -34,12 +35,30 @@ namespace Snake.GameObjects
                 Data.Remove(Data.Min().Key);
                 Data.Add(name, score);
             }
-            Data.Add(name, score);
-
+            if (Data.ContainsKey(name) && score.Points >= Data[name].Points)
+                Data[name] = score;
+            else
+                if (!Data.ContainsKey(name))
+                Data.Add(name, score);
+            
         }
-        private void Uplaod()
+        private void LoadData()
         {
-           
+            using (StreamReader sr = File.OpenText("Resources\\Data\\score.txt"))
+            {
+                string readData = sr.ReadLine();
+                while (readData != null)
+                {
+                    string[] data = readData.Split(':');
+                    Data.Add(data[0], new GameObjects.Score(int.Parse(data[1])));
+                    readData = sr.ReadLine();
+                }
+            }
+        }
+        private void Upload()
+        {
+            using (StreamWriter sw = File.CreateText("Resources\\Data\\score.txt"))
+                Data.Values.ToList().ForEach(x => sw.WriteLine(x.Name + ":" + x.Points));
         }
     }
 }

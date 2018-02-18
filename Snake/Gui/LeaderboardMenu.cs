@@ -32,16 +32,7 @@ namespace Snake.Gui
         }
         private void LoadData()
         {
-            using (StreamReader sr = File.OpenText("Resources\\Data\\score.txt"))
-            {
-                string readData = sr.ReadLine();
-                while(readData != null)
-                {
-                    string[] data = readData.Split(':');
-                    game.Leaderboard.Add(data[0], new GameObjects.Score(int.Parse(data[1])));
-                    readData = sr.ReadLine();
-                }
-            }
+            
         }
         private void Window_MouseButtonPressed(object sender, SFML.Window.MouseButtonEventArgs e)
         {

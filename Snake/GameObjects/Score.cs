@@ -12,6 +12,7 @@ namespace Snake.GameObjects
         Font font;
         Text points;
         public int Points { get; private set; }
+        public string Name { get; set; }
         public Score()
         {
             font = new Font("Resources\\Fonts\\InriaSerif-Bold.ttf");

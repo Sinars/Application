@@ -28,12 +28,11 @@ namespace Snake.Controller
          **/
         const int distance = 30;
         public bool isRunning;
-        Score score;
-        public int FinalScore { get { return score.Points; } }
-
+        public Score Score { get; private set; }
+        
         public PlayerController(RenderWindow window, World world) 
         {
-            score = new Score();
+            Score = new Score();
             //score.UpdateScore(27);
             isRunning = false;
             this.world = world;
@@ -99,7 +98,7 @@ namespace Snake.Controller
                             {
                                 world.Food.ChangePosition(map.Available, snake.Positions);
                                 snake.Grow();
-                                score.UpdateScore(world.Food.Points);
+                                Score.UpdateScore(world.Food.Points);
                                 AddPosition((int)snake.Head.Position.X, (int)snake.Head.Position.Y);
                             }
                             if (snake.Canibalism(snake.Head.Position.X - snake.Speed, snake.Head.Position.Y))
@@ -124,7 +123,7 @@ namespace Snake.Controller
                             {
                                 world.Food.ChangePosition(map.Available, snake.Positions);
                                 snake.Grow();
-                                score.UpdateScore(world.Food.Points);
+                                Score.UpdateScore(world.Food.Points);
                                 AddPosition((int)snake.Head.Position.X, (int)snake.Head.Position.Y);
 
                             }
@@ -151,7 +150,7 @@ namespace Snake.Controller
                             {
                                 world.Food.ChangePosition(map.Available, snake.Positions);
                                 snake.Grow();
-                                score.UpdateScore(world.Food.Points);
+                                Score.UpdateScore(world.Food.Points);
                                 AddPosition((int)snake.Head.Position.X, (int)snake.Head.Position.Y);
                             }
                             if (snake.Canibalism(snake.Head.Position.X, snake.Head.Position.Y - snake.Speed))
@@ -175,7 +174,7 @@ namespace Snake.Controller
                             {
                                 world.Food.ChangePosition(map.Available, snake.Positions);
                                 snake.Grow();
-                                score.UpdateScore(world.Food.Points);
+                                Score.UpdateScore(world.Food.Points);
                                 AddPosition((int)snake.Head.Position.X, (int)snake.Head.Position.Y);
                             }
                             if (snake.Canibalism(snake.Head.Position.X, snake.Head.Position.Y + snake.Speed))
@@ -204,7 +203,7 @@ namespace Snake.Controller
         public void Render(RenderWindow window)
         {
             snake.Draw(window, RenderStates.Default);
-            score.Draw(window, RenderStates.Default);
+            Score.Draw(window, RenderStates.Default);
         }
 
         private void Window_KeyPressed(object sender, SFML.Window.KeyEventArgs e)
