@@ -28,11 +28,10 @@ namespace Snake.Controller
          **/
         const int distance = 30;
         public bool isRunning;
-        public Score Score { get; private set; }
+        public Score Score { get; set; }
         
         public PlayerController(RenderWindow window, World world) 
         {
-            Score = new Score();
             //score.UpdateScore(27);
             isRunning = false;
             this.world = world;

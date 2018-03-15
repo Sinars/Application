@@ -61,6 +61,7 @@ namespace Snake.Game
         {
             world.Food = new Apple();
             Controller.DispatchEvents();
+            Controller.Score = new Score();
         }
         public void Update()
         {

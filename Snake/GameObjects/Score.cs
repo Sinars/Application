@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Snake.GameObjects
 {
-    class Score : Drawable
+    class Score : Drawable, IComparable<Score>
     {
         Font font;
         Text points;
@@ -19,11 +19,11 @@ namespace Snake.GameObjects
             points = new Text("0", font);
             Points = 0;
         }
-        public Score(int points)
+        public Score(int points, string name)
         {
             font = new Font("Resources\\Fonts\\InriaSerif-Bold.ttf");
             this.points = new Text("0", font);
-
+            this.Name = name;
             Points = points;
         }
         
@@ -40,6 +40,13 @@ namespace Snake.GameObjects
         public void Draw(RenderTarget target, RenderStates states)
         {
             target.Draw(points);
+        }
+
+
+
+        public int CompareTo(Score other)
+        {
+            return Points.CompareTo(other.Points);
         }
     }
 }

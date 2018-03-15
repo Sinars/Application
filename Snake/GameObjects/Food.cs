@@ -28,12 +28,8 @@ namespace Snake.GameObjects
 
         public void ChangePosition(Position total, Position taken)
         {
-            int x = ((random.Next() % 28) + 1);
-            int y = (random.Next() % 18 + 1);
             var selection = total.content.Except(taken.content).ToList();
             int i = random.Next(0, selection.Count);
-            Console.WriteLine(i);
-            //Console.WriteLine(x + " " + y);
             Position = new Vector2f(selection[i].X * 30, selection[i].Y * 30);
             
         }

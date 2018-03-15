@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{D3A8E672-8989-47DF-A2DA-52958904A2CA}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <RootNamespace>Snake</RootNamespace>
     <AssemblyName>Snake</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
@@ -33,6 +33,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="sfmlnet-audio-2, Version=0.0.0.0, Culture=neutral, processorArchitecture=x86">
@@ -98,6 +101,7 @@
     <Content Include="csfml-window-2.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="icon.ico" />
     <Content Include="Resources\brick.png" />
     <Content Include="Resources\grass.png" />
   </ItemGroup>

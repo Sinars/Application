@@ -66,6 +66,8 @@ namespace Snake.Gui
             {
                 window.MouseButtonPressed -= Window_MouseButtonPressed;
                 window.TextEntered -= Window_TextEntered;
+                game.Controller.Score.Name = inputText;
+                game.Leaderboard.Add(inputText, game.Controller.Score);
                 IsFinished = true;
             }
                 

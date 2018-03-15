@@ -18,6 +18,7 @@ namespace Snake.GameObjects
 
         public IEnumerable<dynamic> GetHighScores()
         {
+            
             var output = (from s in Data
                           orderby s.Value.Points descending
                           select
@@ -28,19 +29,36 @@ namespace Snake.GameObjects
                           }).ToList();
             return output;
         }
+        private string findFirst(string name, Score score)
+        {
+            foreach (String s in Data.Keys)
+                if (Data[s].Points == Data.Values.Min().Points)
+                {
+                    return s;
+                }
+            return "";
+
+        }
         public void Add(string name, Score score)
         {
-            if (Data.Values.Count == 5 && score.Points > Data.Min().Value.Points)
+            string temp=findFirst(name, score);
+            
+            if (Data.Values.Count == 6 && score.Points > Data[temp].Points)
             {
-                Data.Remove(Data.Min().Key);
+                Data.Remove(temp);
                 Data.Add(name, score);
             }
             if (Data.ContainsKey(name) && score.Points >= Data[name].Points)
+            {
                 Data[name] = score;
+                Upload();
+            }
             else
-                if (!Data.ContainsKey(name))
+                if (!Data.ContainsKey(name) && Data.Count < 6)
+            {
                 Data.Add(name, score);
-            
+                Upload();
+            }
         }
         private void LoadData()
         {
@@ -50,7 +68,7 @@ namespace Snake.GameObjects
                 while (readData != null)
                 {
                     string[] data = readData.Split(':');
-                    Data.Add(data[0], new GameObjects.Score(int.Parse(data[1])));
+                    Data.Add(data[0], new GameObjects.Score(int.Parse(data[1]), data[0]));
                     readData = sr.ReadLine();
                 }
             }

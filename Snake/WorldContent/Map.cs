@@ -52,7 +52,6 @@ namespace Snake.WorldContent
                 //Console.WriteLine(pos);
                 
             }
-            Available.content.ForEach(x=>Console.WriteLine(x));
             
         }
         public bool IsBrick(int i, int j)
